@@ -59,4 +59,17 @@ class PizzaService
 
         return $order;
     }
+
+    private function totalOrder($array){
+        $total=0;
+        foreach ($array as $id){
+            $pizza= Pizza::find($id);
+            $total+=$pizza->price;
+        }
+        return $total;
+    }
+    public function calcularImporte($order_id){
+        $order= $this->findOrder($order_id);
+        return $this->totalOrder(explode(',',$order->pizza_ids));
+    }
 }

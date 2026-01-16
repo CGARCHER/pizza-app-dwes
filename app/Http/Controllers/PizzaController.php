@@ -34,5 +34,11 @@ class PizzaController extends Controller
         return ApiResponse::success($order, "Success");
     }
 
+    public function calcularImporte($id){
+        $total= $this->pizzaService->calcularImporte($id);
+        
+        return ApiResponse::success($total, "Success");
+    }
+
 
 }
