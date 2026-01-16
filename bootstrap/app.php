@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\InvalidStatusException;
 use App\Exceptions\NotFoundDeliveryException;
 use App\Exceptions\NotFoundOrderException;
 use App\Helpers\ApiResponse;
@@ -22,6 +23,9 @@ return Application::configure(basePath: dirname(__DIR__))
             return ApiResponse::error('',$exception->getMessage(), $exception->getCode());
         });
          $exceptions->render(function (NotFoundOrderException $exception){
+            return ApiResponse::error('',$exception->getMessage(), $exception->getCode());
+        });
+        $exceptions->render(function (InvalidStatusException $exception){
             return ApiResponse::error('',$exception->getMessage(), $exception->getCode());
         });
     })->create();

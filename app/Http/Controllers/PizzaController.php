@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ApiResponse;
 use App\Http\Requests\CreateOrderRequest;
+use App\Http\Requests\UpdateStatusRequest;
 use App\Services\PizzaService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -38,6 +39,10 @@ class PizzaController extends Controller
         $total= $this->pizzaService->calcularImporte($id);
         
         return ApiResponse::success($total, "Success");
+    }
+    public function updateStatus(UpdateStatusRequest $request) {
+        $updateOrder = $this->pizzaService->updateStatus($request);
+        return ApiResponse::success($updateOrder, "Success");
     }
 
 

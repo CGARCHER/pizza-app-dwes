@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Enums\OrderStatus;
+use App\Exceptions\InvalidStatusException;
 use App\Exceptions\NotFoundDeliveryException;
 use App\Exceptions\NotFoundOrderException;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\Pizza;
 use Illuminate\Http\Response;
+use InvalidArgumentException;
 
 class PizzaService
 {
@@ -71,5 +73,15 @@ class PizzaService
     public function calcularImporte($order_id){
         $order= $this->findOrder($order_id);
         return $this->totalOrder(explode(',',$order->pizza_ids));
+    }
+    public function updateStatus($request) {
+        $order = $this->findOrder($request->order_id);
+
+        if ($order->status == OrderStatus::IN_PREPARATION || $order->status == OrderStatus::DELIVERED) {
+            throw new InvalidStatusException("No se puede cambiar el estado del pedido {$order->id}", Response::HTTP_PRECONDITION_FAILED);
+        }
+        $order->status = $request->status;
+        $order->save();
+        return $order;
     }
 }
