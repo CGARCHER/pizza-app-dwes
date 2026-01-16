@@ -24,6 +24,15 @@ class PizzaController extends Controller
     public function createOrder(CreateOrderRequest $request){
         $values = $request->all();
         $order = $this->pizzaService->createOrder($values);
-    return ApiResponse::success($order,'Order created',Response::HTTP_CREATED);
+        return ApiResponse::success($order,'Order created',Response::HTTP_CREATED);
     }
+
+    public function findOrder($id){
+        //Llamar al service
+        $order = $this->pizzaService->findOrder($id);
+        //Responder la petición HTTP
+        return ApiResponse::success($order, "Success");
+    }
+
+
 }

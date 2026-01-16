@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery extends Model
 {
     protected $fillable = ['name','phone'];
+    protected $hidden = ['updated_at', 'created_at'];
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\NotFoundDeliveryException;
+use App\Exceptions\NotFoundOrderException;
 use App\Helpers\ApiResponse;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -18,6 +19,9 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
 		 $exceptions->render(function (NotFoundDeliveryException $exception){
+            return ApiResponse::error('',$exception->getMessage(), $exception->getCode());
+        });
+         $exceptions->render(function (NotFoundOrderException $exception){
             return ApiResponse::error('',$exception->getMessage(), $exception->getCode());
         });
     })->create();

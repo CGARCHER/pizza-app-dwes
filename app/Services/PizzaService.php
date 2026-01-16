@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\OrderStatus;
 use App\Exceptions\NotFoundDeliveryException;
+use App\Exceptions\NotFoundOrderException;
 use App\Models\Delivery;
 use App\Models\Order;
 use App\Models\Pizza;
@@ -45,5 +46,17 @@ class PizzaService
             throw new NotFoundDeliveryException
                 ("No existe un id delivery {$delivery_id}",Response::HTTP_NOT_FOUND);
         }
+    }
+
+    public function findOrder($id){
+     
+        //Recuperar el order.
+        $order = Order::with('delivery')->find($id);
+
+        if(empty($order)){
+            throw new NotFoundOrderException("No existe pedido con id {$id}", Response::HTTP_NOT_FOUND);
+        }
+
+        return $order;
     }
 }
